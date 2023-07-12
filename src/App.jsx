@@ -1,13 +1,18 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMovies } from "./hooks/useMovies";
 import { Movies } from "./components/Movies";
 
 function useSearch() {
-  const { search, updateSeach } = useState("");
+  const [search, updateSeach] = useState("");
   const [error, setError] = useState(null);
+  const isFirstInput = useRef(true);
 
   useEffect(() => {
+    if (isFirstInput.current) {
+      isFirstInput.current = "search" === "";
+      return;
+    }
     if (search === "") {
       setError("Please enter a movie title");
       return;
