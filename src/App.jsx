@@ -34,17 +34,26 @@ function useSearch() {
 }
 
 function App() {
+  const [sort, setSort] = useState(false);
   const { search, updateSeach, error } = useSearch();
-  const { movies, loading, getMovies } = useMovies({ search });
+  const { movies, loading, getMovies } = useMovies({ search, sort });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getMovies();
+    getMovies({ search });
+  };
+
+  const handleSort = () => {
+    setSort(!sort);
   };
 
   const handleChange = (event) => {
     updateSeach(event.target.value);
   };
+
+  useEffect(() => {
+    console.log("NewMovies");
+  }, [getMovies]);
 
   return (
     <div className="page">
@@ -56,6 +65,12 @@ function App() {
             onChange={handleChange}
             value={search}
             placeholder="Avengers, Star Wars, Harry Potter..."
+          />
+          <input
+            type="checkbox"
+            name="sort"
+            onChange={handleSort}
+            checked={sort}
           />
           <button type="submit">Search</button>
         </form>
