@@ -48,7 +48,9 @@ function App() {
   };
 
   const handleChange = (event) => {
+    const newSearch = event.target.value;
     updateSeach(event.target.value);
+    getMovies({ search: newSearch });
   };
 
   useEffect(() => {
